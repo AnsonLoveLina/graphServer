@@ -1,12 +1,13 @@
 package com.hisign.common.resource;
 
-import cn.sinobest.policeunion.biz.gxwj.graph.common.init.SpringContextInit;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.SetMultimap;
+import com.hisign.common.init.SpringContextInit;
 import jodd.util.StringUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,7 @@ public class GraphContext {
 
     private SetMultimap<String, GraphRelation> nodeStrConfig = HashMultimap.create();
 
-    @Resource(name = "jdbcTemplateConf")
+    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @PostConstruct
@@ -53,49 +54,49 @@ public class GraphContext {
         ApplicationContext context = SpringContextInit.getContext();
         Map<String, GraphRelation> relationMap = context.getBeansOfType(GraphRelation.class);
         for (GraphRelation relation : relationMap.values()) {
-            nodeStrConfig.put(relation.getFromType().toString(), relation);
+            nodeStrConfig.put(relation.getOutLabel().toString(), relation);
         }
     }
 
-    private void dbInit(){
-        List<String> nodeTypes = getNodeTypes();
-        for (String fromNodeType : nodeTypes) {
-            GraphNodeType fromGraphNodeType = new GraphNodeType(fromNodeType);
-            List<Map<String, Object>> fromNodeTypeNames = getNodeTypeNames(fromNodeType);
-            for (Map<String, Object> fromNodeTypeName : fromNodeTypeNames) {
-                String sxbs = null;
-                String fromTypeName = fromNodeTypeName.get(typeNameParam) == null ? "" : fromNodeTypeName.get(typeNameParam).toString();
-                String tableName = fromNodeTypeName.get(tableNameParam) == null ? "" : fromNodeTypeName.get(tableNameParam).toString();
-                String tableId = fromNodeTypeName.get(tableIdParam) == null ? "" : fromNodeTypeName.get(tableIdParam).toString();
-                String sql = getSql(tableName);
-                String pkColumn = getPkColumn(tableName);
-                List<Map<String, Object>> toNodeTypeNames = getRelationNodeTypeNames(fromNodeType, fromTypeName, tableName);
-                List<String> toTypeName = Lists.newArrayList();
-                for (int i = 0; i < toNodeTypeNames.size(); i++) {
-                    Map<String, Object> toNodeTypeNameMap = toNodeTypeNames.get(i);
-                    Map<String, Object> nextToNodeTypeNameMap = i == toNodeTypeNames.size() - 1 ? null : toNodeTypeNames.get(i + 1);
-                    String toNodeTypeName = toNodeTypeNameMap.get(typeNameParam) == null ? "" : toNodeTypeNameMap.get(typeNameParam).toString();
-                    String toNodeType = toNodeTypeNameMap.get(typeParam) == null ? "" : toNodeTypeNameMap.get(typeParam).toString();
-                    String nextToNodeType = nextToNodeTypeNameMap == null || nextToNodeTypeNameMap.get(typeParam) == null ? "" : nextToNodeTypeNameMap.get(typeParam).toString();
-                    toTypeName.add(toNodeTypeName);
-                    sxbs = toNodeType;
-                    if (nextToNodeTypeNameMap == null || !nextToNodeType.equals(sxbs)) {
-                        String toColumn = StringUtil.join(toTypeName, ",");
-                        GraphRelation relation = new GraphRelation(fromGraphNodeType, fromTypeName, new GraphNodeType(toNodeType), toColumn.substring(1, toColumn.length()-2), sql, tableId);
-                        relation.setPkColumn(pkColumn);
-                        nodeStrConfig.put(fromGraphNodeType.toString(), relation);
-//                        relation.setFromPKColumn(fromTypeName);
-//                        relation.setToPKColumn(StringUtil.join(toTypeName, ","));
-                        toTypeName.clear();
-                    }
-                }
-            }
-        }
-
-        for (Map.Entry<String, GraphRelation> entry:nodeStrConfig.entries()){
-            logger.info("key:" + entry.getKey() + "       value:"+entry.getValue());
-        }
-    }
+//    private void dbInit(){
+//        List<String> nodeTypes = getNodeTypes();
+//        for (String fromNodeType : nodeTypes) {
+//            GraphNodeType fromGraphNodeType = new GraphNodeType(fromNodeType);
+//            List<Map<String, Object>> fromNodeTypeNames = getNodeTypeNames(fromNodeType);
+//            for (Map<String, Object> fromNodeTypeName : fromNodeTypeNames) {
+//                String sxbs = null;
+//                String fromTypeName = fromNodeTypeName.get(typeNameParam) == null ? "" : fromNodeTypeName.get(typeNameParam).toString();
+//                String tableName = fromNodeTypeName.get(tableNameParam) == null ? "" : fromNodeTypeName.get(tableNameParam).toString();
+//                String tableId = fromNodeTypeName.get(tableIdParam) == null ? "" : fromNodeTypeName.get(tableIdParam).toString();
+//                String sql = getSql(tableName);
+//                String pkColumn = getPkColumn(tableName);
+//                List<Map<String, Object>> toNodeTypeNames = getRelationNodeTypeNames(fromNodeType, fromTypeName, tableName);
+//                List<String> toTypeName = Lists.newArrayList();
+//                for (int i = 0; i < toNodeTypeNames.size(); i++) {
+//                    Map<String, Object> toNodeTypeNameMap = toNodeTypeNames.get(i);
+//                    Map<String, Object> nextToNodeTypeNameMap = i == toNodeTypeNames.size() - 1 ? null : toNodeTypeNames.get(i + 1);
+//                    String toNodeTypeName = toNodeTypeNameMap.get(typeNameParam) == null ? "" : toNodeTypeNameMap.get(typeNameParam).toString();
+//                    String toNodeType = toNodeTypeNameMap.get(typeParam) == null ? "" : toNodeTypeNameMap.get(typeParam).toString();
+//                    String nextToNodeType = nextToNodeTypeNameMap == null || nextToNodeTypeNameMap.get(typeParam) == null ? "" : nextToNodeTypeNameMap.get(typeParam).toString();
+//                    toTypeName.add(toNodeTypeName);
+//                    sxbs = toNodeType;
+//                    if (nextToNodeTypeNameMap == null || !nextToNodeType.equals(sxbs)) {
+//                        String toColumn = StringUtil.join(toTypeName, ",");
+//                        GraphRelation relation = new GraphRelation(fromGraphNodeType, fromTypeName, new GraphNodeType(toNodeType), toColumn.substring(1, toColumn.length()-2), sql, tableId);
+//                        relation.setPkColumn(pkColumn);
+//                        nodeStrConfig.put(fromGraphNodeType.toString(), relation);
+////                        relation.setFromPKColumn(fromTypeName);
+////                        relation.setToPKColumn(StringUtil.join(toTypeName, ","));
+//                        toTypeName.clear();
+//                    }
+//                }
+//            }
+//        }
+//
+//        for (Map.Entry<String, GraphRelation> entry:nodeStrConfig.entries()){
+//            logger.info("key:" + entry.getKey() + "       value:"+entry.getValue());
+//        }
+//    }
 
     private String getPkColumn(String tableName) {
         String pkColumn = null;

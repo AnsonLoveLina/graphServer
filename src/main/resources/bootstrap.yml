@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: graphServer
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@192.168.1.82:1521:orcl
+    username: xingji
+    password: xingji
+    minIdle: 50
+    maxActive: 100
+    initialSize: 10
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    filters: stat
+server:
+  port: 8088
+logging:
+  file: graphServer.log
+  path: logs

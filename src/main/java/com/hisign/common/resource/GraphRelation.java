@@ -5,192 +5,101 @@ import org.springframework.beans.factory.BeanNameAware;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * Created by zhouyi1 on 2016/6/27 0027.
  */
-public class GraphRelation implements BeanNameAware {
+public class GraphRelation {
 
-    String fromStrColumn;
+    private Properties relationProperties;
+    private String relationLabel;
+    private GraphNodeType outLabel;
+    private String outId;
+    private Properties outProperties;
+    private GraphNodeType inLabel;
+    private String inId;
+    private Properties inProperties;
+    private String relationSql;
+    private String relationId;
 
-    String toStrColumn;
-
-    String relationStr;
-
-    String relationName;
-
-    String pkColumn;
-
-//    String fromPKColumn;
-
-    GraphNodeType fromType;
-
-    String fromColumn;
-
-//    String toPKColumn;
-
-    GraphNodeType toType;
-
-    String toColumn;
-
-    String relationSql;
-
-    String tableId;
-
-    Map<String,Object> relationDetail = new HashMap<String, Object>();
-
-    public String getRelationPk() {
-        return tableId+relationName;
+    public void setRelationProperties(Properties relationProperties) {
+        this.relationProperties = relationProperties;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(" | fromType = " + fromType);
-        sb.append(" | fromColumn = " + fromColumn);
-        sb.append(" | toType = " + toType);
-        sb.append(" | toColumn = " + toColumn);
-        sb.append(" | relationSql = " + relationSql);
-        sb.append(" | tableId = " + tableId);
-        sb.append(" | pkColumn = " + pkColumn);
-        sb.append(" | relationName = " + relationName);
-        sb.append(" | relationStr = " + relationStr);
-        return sb.toString();
+    public Properties getRelationProperties() {
+        return relationProperties;
     }
 
-    public GraphRelation(GraphNodeType fromType, String fromColumn, GraphNodeType toType, String toColumn, String relationSql, String tableId) {
-        this.fromType = fromType;
-        this.fromColumn = fromColumn;
-        this.toType = toType;
-        this.toColumn = toColumn;
-        this.relationSql = relationSql;
-        this.tableId = tableId;
-        this.relationName = tableId+"对应"+fromType+"和"+toType+"的关系";
+    public void setRelationLabel(String relationLabel) {
+        this.relationLabel = relationLabel;
     }
 
-    public GraphRelation() {
+    public String getRelationLabel() {
+        return relationLabel;
     }
 
-    public String getFromStrColumn() {
-        return fromStrColumn;
+    public void setOutLabel(GraphNodeType outLabel) {
+        this.outLabel = outLabel;
     }
 
-    public void setFromStrColumn(String fromStrColumn) {
-        this.fromStrColumn = fromStrColumn;
+    public GraphNodeType getOutLabel() {
+        return outLabel;
     }
 
-    public String getToStrColumn() {
-        return toStrColumn;
+    public void setOutId(String outId) {
+        this.outId = outId;
     }
 
-    public void setToStrColumn(String toStrColumn) {
-        this.toStrColumn = toStrColumn;
+    public String getOutId() {
+        return outId;
     }
 
-    public String getTableId() {
-        return tableId==null?getRelationName():tableId;
+    public void setOutProperties(Properties outProperties) {
+        this.outProperties = outProperties;
     }
 
-    public void setTableId(String tableId) {
-        this.tableId = tableId;
+    public Properties getOutProperties() {
+        return outProperties;
     }
 
-    public String getPkColumn() {
-        return pkColumn;
+    public void setInLabel(GraphNodeType inLabel) {
+        this.inLabel = inLabel;
     }
 
-    public void setPkColumn(String pkColumn) {
-        this.pkColumn = pkColumn;
+    public GraphNodeType getInLabel() {
+        return inLabel;
     }
 
-//    /**
-//     * 优先级依次是fromPKColumn,pkColumn,fromColumn
-//     * @return
-//     */
-//    public String getFromPKColumn() {
-//        return fromPKColumn==null?(getPkColumn()==null?getFromColumn():getPkColumn()):fromPKColumn;
-//    }
-//
-//    public void setFromPKColumn(String fromPKColumn) {
-//        this.fromPKColumn = fromPKColumn;
-//    }
-//
-//    public String getToPKColumn() {
-//        return toPKColumn==null?(getPkColumn()==null?getToColumn():getPkColumn()):toPKColumn;
-//    }
-//
-//    public void setToPKColumn(String toPKColumn) {
-//        this.toPKColumn = toPKColumn;
-//    }
-
-    public String getFromColumn() {
-        return fromColumn==null?"":fromColumn;
+    public void setInId(String inId) {
+        this.inId = inId;
     }
 
-    public void setFromColumn(String fromColumn) {
-        this.fromColumn = fromColumn;
+    public String getInId() {
+        return inId;
     }
 
-    public String getToColumn() {
-        return toColumn==null?"":toColumn;
+    public void setInProperties(Properties inProperties) {
+        this.inProperties = inProperties;
     }
 
-    public void setToColumn(String toColumn) {
-        this.toColumn = toColumn;
-    }
-
-    public GraphNodeType getFromType() {
-        return fromType;
-    }
-
-    public void setFromType(GraphNodeType fromType) {
-        this.fromType = fromType;
-    }
-
-    public GraphNodeType getToType() {
-        return toType;
-    }
-
-    public void setToType(GraphNodeType toType) {
-        this.toType = toType;
-    }
-
-    public String getRelationName() {
-        return relationName;
-    }
-
-    public void setRelationName(String relationName) {
-        this.relationName = relationName;
-    }
-
-    public Map<String, Object> getRelationDetail() {
-        return relationDetail;
-    }
-
-    public void setRelationDetail(Map<String, Object> relationDetail) {
-        this.relationDetail = relationDetail;
-    }
-
-    public String getRelationSql() {
-        return relationSql;
+    public Properties getInProperties() {
+        return inProperties;
     }
 
     public void setRelationSql(String relationSql) {
         this.relationSql = relationSql;
     }
 
-    public String getRelationStr() {
-        return relationStr;
+    public String getRelationSql() {
+        return relationSql;
     }
 
-    public void setRelationStr(String relationStr) {
-        this.relationStr = relationStr;
+    public void setRelationId(String relationId) {
+        this.relationId = relationId;
     }
 
-    @Override
-    public void setBeanName(String s) {
-        if(StringUtil.isBlank(this.relationName)){
-            this.relationName = s;
-        }
+    public String getRelationId() {
+        return relationId;
     }
 }

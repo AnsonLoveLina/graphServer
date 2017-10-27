@@ -30,7 +30,17 @@ public class GraphNodeType implements BeanNameAware {
         this.type = type.toUpperCase();
     }
 
-//    public String getPkColumnName() {
+    @Override
+    public int hashCode() {
+        return toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return toString().equals(obj==null?null:obj.toString());
+    }
+
+    //    public String getPkColumnName() {
 //        return pkColumnName;
 //    }
 //
