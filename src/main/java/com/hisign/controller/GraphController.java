@@ -42,7 +42,9 @@ public class GraphController {
         Map<String, GraphRelation> relationMap = context.getBeansOfType(GraphRelation.class);
         Graph graph = TinkerGraph.open();
         for (GraphRelation relation : relationMap.values()) {
-            iGraphSearcher.search(graph, false, relation, String.format(" and %s = '%s'",startNodeType,startNodeValue));
+            if (!startNodeType.toString().equals(relation.getTypeDelete())){
+                iGraphSearcher.search(graph, false, relation, String.format(" and %s = '%s'",startNodeType,startNodeValue));
+            }
         }
 
         GraphTravel graphTravel = new GraphTravel(graph);

@@ -61,11 +61,15 @@ public class DefaultGraphSearcher implements IGraphSearcher {
         }
     }
 
-    private Vertex getVertex(Graph graph, GraphRelation relation, String nodeId, Map<String, Object> maps) {
+    private Vertex getVertex(Graph graph, String label, Properties properties, String nodeId, Map<String, Object> maps) {
         Vertex vertex = null;
+        if (nodeId == null) {
+            return vertex;
+        }
+
         try {
-            vertex = graph.addVertex(T.label, relation.getOutLabel().toString(), T.id, nodeId);
-            setProperties(vertex, relation.getOutProperties(), maps);
+            vertex = graph.addVertex(T.label, label, T.id, nodeId);
+            setProperties(vertex, properties, maps);
         } catch (IllegalArgumentException e) {
             logger.trace(String.format("%s is exists!", nodeId));
             vertex = graph.traversal().V().has(T.id, nodeId).next();
@@ -88,10 +92,10 @@ public class DefaultGraphSearcher implements IGraphSearcher {
                 String outNodeId = maps.get(relation.getOutId()) == null ? null : maps.get(relation.getOutId()).toString();
                 String inNodeId = maps.get(relation.getInId()) == null ? null : maps.get(relation.getInId()).toString();
 
-                if (inNodeId != null && outNodeId != null) {
-                    Vertex outVertex = getVertex(graph, relation, outNodeId, maps);
-                    Vertex inVertex = getVertex(graph, relation, inNodeId, maps);
+                Vertex outVertex = getVertex(graph, relation.getOutLabel().toString(), relation.getOutProperties(), outNodeId, maps);
+                Vertex inVertex = getVertex(graph, relation.getInLabel().toString(), relation.getInProperties(), inNodeId, maps);
 
+                if (inNodeId != null && outNodeId != null) {
                     try {
                         Edge edge = outVertex.addEdge(relation.getRelationLabel(), inVertex, T.id, new RelationId(outNodeId, inNodeId, relation.getRelationLabel()));
                         setProperties(edge, relation.getRelationProperties(), maps);

@@ -22,6 +22,7 @@ public class GraphRelation {
     private Properties inProperties;
     private String relationSql;
     private String relationId;
+    private String typeDelete;
 
     public void setRelationProperties(Properties relationProperties) {
         this.relationProperties = relationProperties;
@@ -101,5 +102,13 @@ public class GraphRelation {
 
     public String getRelationId() {
         return relationId;
+    }
+
+    public void setTypeDelete(String typeDelete) {
+        this.typeDelete = typeDelete;
+    }
+
+    public String getTypeDelete() {
+        return typeDelete;
     }
 }

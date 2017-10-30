@@ -22,8 +22,8 @@ public class JSONDecorators implements IJSONDecorators {
                 JSONObject jsonValue = new JSONObject();
                 jsonValue.put("id",vertex.id());
                 jsonValue.put("name",vertex.value("name"));
-                jsonValue.put("image",vertex.value("type").toString()+".jpg");
-                jsonValue.put("type",vertex.value("type"));
+                jsonValue.put("image",vertex.label()+".jpg");
+                jsonValue.put("type",vertex.label());
                 nodesJson.add(jsonValue);
             }
 

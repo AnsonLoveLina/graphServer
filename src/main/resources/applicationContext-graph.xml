@@ -17,6 +17,9 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
 
     <!--配置关系，假如关系可以从A->B，也可以从B->A的话需要配置两个-->
     <bean class="com.hisign.common.resource.GraphRelation">
+        <!-- 假如传入参数的type和VALUE一致则该关系不予查询。 -->
+        <!-- 用途1，子专案组查询则删除父关联，父专案组查询则删除子关联 -->
+        <property name="typeDelete" value="groupid"/>
         <property name="relationProperties">
             <props>
                 <prop key="name">涉及案件</prop>
@@ -27,28 +30,34 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         <property name="relationLabel" value="group2aj"/>
         <!--从out到in-->
         <property name="outLabel" ref="groupid"/>
-        <property name="outId" value="GROUPID"/>
+        <property name="outId" value="PGROUPID"/>
         <property name="outProperties">
             <props>
+                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
                 <prop key="name">GROUPNAME</prop>
-                <prop key="type">pgroupid</prop>
             </props>
         </property>
         <property name="inLabel" ref="ajid"/>
         <property name="inId" value="AJID"/>
         <property name="inProperties">
             <props>
+                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
                 <prop key="name">AJMC</prop>
             </props>
         </property>
         <!--关系语句-->
         <property name="relationSql">
-            <value>select t.*,(select GROUPNAME from T_GROUP g where g.id = t.groupid) as GROUPNAME,(select AJMC from B_ASJ_AJ a where a.id = t.AJID) as AJMC from T_AJGROUP t where 1=1</value>
+            <value>select t.*,(select GROUPNAME from T_GROUP g where g.id = t.pgroupid) as GROUPNAME,(select AJMC from B_ASJ_AJ a where a.id = t.AJID) as AJMC from T_AJGROUP t where 1=1</value>
         </property>
     </bean>
 
     <!--配置关系，假如关系可以从A->B，也可以从B->A的话需要配置两个-->
     <bean class="com.hisign.common.resource.GraphRelation">
+        <!-- 假如传入参数的type和VALUE一致则该关系不予查询。 -->
+        <!-- 用途1，子专案组查询则删除父关联，父专案组查询则删除子关联 -->
+        <property name="typeDelete" value="pgroupid"/>
         <property name="relationProperties">
             <props>
                 <prop key="name">涉及案件</prop>
@@ -62,6 +71,8 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         <property name="outId" value="GROUPID"/>
         <property name="outProperties">
             <props>
+                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
                 <prop key="name">GROUPNAME</prop>
             </props>
         </property>
@@ -69,12 +80,90 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         <property name="inId" value="AJID"/>
         <property name="inProperties">
             <props>
+                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
                 <prop key="name">AJMC</prop>
             </props>
         </property>
         <!--关系语句-->
         <property name="relationSql">
             <value>select t.*,(select GROUPNAME from T_GROUP g where g.id = t.groupid) as GROUPNAME,(select AJMC from B_ASJ_AJ a where a.id = t.AJID) as AJMC from T_AJGROUP t where 1=1</value>
+        </property>
+    </bean>
+
+    <!--配置关系，假如关系可以从A->B，也可以从B->A的话需要配置两个-->
+    <bean class="com.hisign.common.resource.GraphRelation">
+        <!-- 假如传入参数的type和VALUE一致则该关系不予查询。 -->
+        <!-- 用途1，子专案组查询则删除父关联，父专案组查询则删除子关联 -->
+        <property name="typeDelete" value="groupid"/>
+        <property name="relationProperties">
+            <props>
+                <prop key="name">新任务</prop>
+                <prop key="tableName">T_TASK</prop>
+                <prop key="code">pgroup2task</prop>
+            </props>
+        </property>
+        <property name="relationLabel" value="group2task"/>
+        <!--从out到in-->
+        <property name="outLabel" ref="groupid"/>
+        <property name="outId" value="PGROUPID"/>
+        <property name="outProperties">
+            <props>
+                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
+                <prop key="name">GROUPNAME</prop>
+            </props>
+        </property>
+        <property name="inLabel" ref="taskid"/>
+        <property name="inId" value="ID"/>
+        <property name="inProperties">
+            <props>
+                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
+                <prop key="name">TASK_STR</prop>
+            </props>
+        </property>
+        <!--关系语句-->
+        <property name="relationSql">
+            <value>select t.*,(select GROUPNAME from T_GROUP g where g.id = t.pgroupid) as GROUPNAME,t.TASK_NAME || '@' || t.CREATETIME as TASK_STR from v_t_task_graphshow t where bcrwid is null and fkid is null and YJZT='0'</value>
+        </property>
+    </bean>
+
+    <!--配置关系，假如关系可以从A->B，也可以从B->A的话需要配置两个-->
+    <bean class="com.hisign.common.resource.GraphRelation">
+        <!-- 假如传入参数的type和VALUE一致则该关系不予查询。 -->
+        <!-- 用途1，子专案组查询则删除父关联，父专案组查询则删除子关联 -->
+        <property name="typeDelete" value="pgroupid"/>
+        <property name="relationProperties">
+            <props>
+                <prop key="name">新任务</prop>
+                <prop key="tableName">T_TASK</prop>
+                <prop key="code">group2task</prop>
+            </props>
+        </property>
+        <property name="relationLabel" value="group2task"/>
+        <!--从out到in-->
+        <property name="outLabel" ref="groupid"/>
+        <property name="outId" value="GROUPID"/>
+        <property name="outProperties">
+            <props>
+                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
+                <prop key="name">GROUPNAME</prop>
+            </props>
+        </property>
+        <property name="inLabel" ref="taskid"/>
+        <property name="inId" value="ID"/>
+        <property name="inProperties">
+            <props>
+                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
+                <prop key="name">TASK_STR</prop>
+            </props>
+        </property>
+        <!--关系语句-->
+        <property name="relationSql">
+            <value>select t.*,(select GROUPNAME from T_GROUP g where g.id = t.groupid) as GROUPNAME,t.TASK_NAME || '@' || t.CREATETIME as TASK_STR from v_t_task_graphshow t where bcrwid is null and fkid is null and YJZT='0'</value>
         </property>
     </bean>
 
@@ -93,6 +182,8 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         <property name="outId" value="TASKID"/>
         <property name="outProperties">
             <props>
+                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
                 <prop key="name">PTASK_STR</prop>
             </props>
         </property>
@@ -100,12 +191,14 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         <property name="inId" value="ID"/>
         <property name="inProperties">
             <props>
+                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
                 <prop key="name">FKSTR</prop>
             </props>
         </property>
         <!--关系语句-->
         <property name="relationSql">
-            <value>select t.*,(select a.TASK_NAME || '@' || a.CREATETIME as TASK_STR from T_TASK a where a.id = t.TASKID ) as PTASK_STR,t.FKXS || '@' || t.CREATETIME as FKSTR from T_TASK_FK t where 1=1</value>
+            <value>select t.*,(select a.TASK_NAME || '@' || a.CREATETIME as TASK_STR from v_t_task_graphshow a where a.id = t.TASKID ) as PTASK_STR,t.FKXS || '@' || t.CREATETIME as FKSTR from T_TASK_FK t where 1=1</value>
         </property>
     </bean>
 
@@ -124,6 +217,8 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         <property name="outId" value="FKID"/>
         <property name="outProperties">
             <props>
+                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
                 <prop key="name">FKSTR</prop>
             </props>
         </property>
@@ -131,75 +226,14 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         <property name="inId" value="ID"/>
         <property name="inProperties">
             <props>
+                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
                 <prop key="name">TASK_STR</prop>
             </props>
         </property>
         <!--关系语句-->
         <property name="relationSql">
-            <value>select t.*,(select f.FKXS || '@' || f.CREATETIME from T_TASK_FK f where f.id = t.FKID) as FKSTR,t.TASK_NAME || '@' || t.CREATETIME as TASK_STR from T_TASK t where YJZT='0'</value>
-        </property>
-    </bean>
-
-    <!--配置关系，假如关系可以从A->B，也可以从B->A的话需要配置两个-->
-    <bean class="com.hisign.common.resource.GraphRelation">
-        <property name="relationProperties">
-            <props>
-                <prop key="name">新任务</prop>
-                <prop key="tableName">T_TASK</prop>
-                <prop key="code">group2task</prop>
-            </props>
-        </property>
-        <property name="relationLabel" value="group2task"/>
-        <!--从out到in-->
-        <property name="outLabel" ref="groupid"/>
-        <property name="outId" value="GROUPID"/>
-        <property name="outProperties">
-            <props>
-                <prop key="name">GROUPNAME</prop>
-            </props>
-        </property>
-        <property name="inLabel" ref="taskid"/>
-        <property name="inId" value="ID"/>
-        <property name="inProperties">
-            <props>
-                <prop key="name">TASK_STR</prop>
-            </props>
-        </property>
-        <!--关系语句-->
-        <property name="relationSql">
-            <value>select t.*,(select GROUPNAME from T_GROUP g where g.id = t.groupid) as GROUPNAME,t.TASK_NAME || '@' || t.CREATETIME as TASK_STR from T_TASK t where bcrwid is null and fkid is null and YJZT='0'</value>
-        </property>
-    </bean>
-
-    <!--配置关系，假如关系可以从A->B，也可以从B->A的话需要配置两个-->
-    <bean class="com.hisign.common.resource.GraphRelation">
-        <property name="relationProperties">
-            <props>
-                <prop key="name">新任务</prop>
-                <prop key="tableName">T_TASK</prop>
-                <prop key="code">pgroup2task</prop>
-            </props>
-        </property>
-        <property name="relationLabel" value="group2task"/>
-        <!--从out到in-->
-        <property name="outLabel" ref="groupid"/>
-        <property name="outId" value="PGROUPID"/>
-        <property name="outProperties">
-            <props>
-                <prop key="name">GROUPNAME</prop>
-                <prop key="type">pgroupid</prop>
-            </props>
-        </property>
-        <property name="inLabel" ref="taskid"/>
-        <property name="inId" value="ID"/>
-        <property name="inProperties">
-            <props>
-                <prop key="name">TASK_STR</prop>
-            </props>
-        </property>
-        <!--关系语句-->
-        <property name="relationSql">
-            <value>select t.*,(select GROUPNAME from T_GROUP g where g.id = t.pgroupid) as GROUPNAME,t.TASK_NAME || '@' || t.CREATETIME as TASK_STR from T_TASK t where bcrwid is null and fkid is null and YJZT='0'</value>
+            <value>select t.*,(select f.FKXS || '@' || f.CREATETIME from T_TASK_FK f where f.id = t.FKID) as FKSTR,t.TASK_NAME || '@' || t.CREATETIME as TASK_STR from v_t_task_graphshow t where YJZT='0'</value>
         </property>
     </bean>
 
@@ -218,6 +252,8 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         <property name="outId" value="BCRWID"/>
         <property name="outProperties">
             <props>
+                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
                 <prop key="name">PTASK_STR</prop>
             </props>
         </property>
@@ -225,12 +261,14 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         <property name="inId" value="ID"/>
         <property name="inProperties">
             <props>
+                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
                 <prop key="name">TASK_STR</prop>
             </props>
         </property>
         <!--关系语句-->
         <property name="relationSql">
-            <value>select t.*,(select a.TASK_NAME || '@' || a.CREATETIME from T_TASK a where a.id = t.BCRWID ) as PTASK_STR,t.TASK_NAME || '@' || t.CREATETIME as TASK_STR from T_TASK t where YJZT='0'</value>
+            <value>select t.*,(select a.TASK_NAME || '@' || a.CREATETIME from v_t_task_graphshow a where a.id = t.BCRWID ) as PTASK_STR,t.TASK_NAME || '@' || t.CREATETIME as TASK_STR from T_TASK t where YJZT='0'</value>
         </property>
     </bean>
 
