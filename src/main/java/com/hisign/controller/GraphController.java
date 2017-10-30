@@ -41,9 +41,15 @@ public class GraphController {
         ApplicationContext context = SpringContextInit.getContext();
         Map<String, GraphRelation> relationMap = context.getBeansOfType(GraphRelation.class);
         Graph graph = TinkerGraph.open();
+        String conditionSql = "";
+        if ("pgroupid".equals(startNodeType)) {
+            conditionSql = String.format(" and (%s = '%s' or groupid='%s')", startNodeType, startNodeValue, startNodeValue);
+        } else if ("groupid".equals(startNodeType)) {
+            conditionSql = String.format(" and %s = '%s'", startNodeType, startNodeValue);
+        }
         for (GraphRelation relation : relationMap.values()) {
-            if (!startNodeType.toString().equals(relation.getTypeDelete())){
-                iGraphSearcher.search(graph, false, relation, String.format(" and %s = '%s'",startNodeType,startNodeValue));
+            if (!startNodeType.toString().equals(relation.getTypeDelete())) {
+                iGraphSearcher.search(graph, false, relation, conditionSql);
             }
         }
 
