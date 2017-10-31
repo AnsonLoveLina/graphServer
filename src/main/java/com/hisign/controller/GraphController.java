@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -36,8 +37,7 @@ public class GraphController {
     IGraphSearcher iGraphSearcher;
 
     @RequestMapping(value = "/getGraph", method = RequestMethod.GET)
-    public String getGraph(String startNodeValue, String startNodeType) {
-
+    public String getGraph(String startNodeValue, String startNodeType,@RequestParam(defaultValue = "true") boolean detail) {
         ApplicationContext context = SpringContextInit.getContext();
         Map<String, GraphRelation> relationMap = context.getBeansOfType(GraphRelation.class);
         Graph graph = TinkerGraph.open();
@@ -49,7 +49,7 @@ public class GraphController {
         }
         for (GraphRelation relation : relationMap.values()) {
             if (!startNodeType.toString().equals(relation.getTypeDelete())) {
-                iGraphSearcher.search(graph, false, relation, conditionSql);
+                iGraphSearcher.search(graph, detail, relation, conditionSql);
             }
         }
 

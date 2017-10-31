@@ -61,7 +61,7 @@ public class DefaultGraphSearcher implements IGraphSearcher {
         }
     }
 
-    private Vertex getVertex(Graph graph, String label, Properties properties, String nodeId, Map<String, Object> maps) {
+    private Vertex getVertex(Graph graph, String label, Properties properties, String nodeId, Map<String, Object> maps,boolean detail) {
         Vertex vertex = null;
         if (nodeId == null) {
             return vertex;
@@ -78,7 +78,7 @@ public class DefaultGraphSearcher implements IGraphSearcher {
     }
 
     @Override
-    public boolean search(final Graph graph, final Boolean detail, final GraphRelation relation, String conditionSql) {
+    public boolean search(final Graph graph, final boolean detail, final GraphRelation relation, String conditionSql) {
         String sql = getSql(relation, conditionSql);
         logger.trace("relation:" + relation.getOutLabel() + "-" + relation.getInLabel());
         logger.trace("dig sql:" + sql);
@@ -92,8 +92,8 @@ public class DefaultGraphSearcher implements IGraphSearcher {
                 String outNodeId = maps.get(relation.getOutId()) == null ? null : maps.get(relation.getOutId()).toString();
                 String inNodeId = maps.get(relation.getInId()) == null ? null : maps.get(relation.getInId()).toString();
 
-                Vertex outVertex = getVertex(graph, relation.getOutLabel().toString(), relation.getOutProperties(), outNodeId, maps);
-                Vertex inVertex = getVertex(graph, relation.getInLabel().toString(), relation.getInProperties(), inNodeId, maps);
+                Vertex outVertex = getVertex(graph, relation.getOutLabel().toString(), relation.getOutProperties(), outNodeId, maps,detail);
+                Vertex inVertex = getVertex(graph, relation.getInLabel().toString(), relation.getInProperties(), inNodeId, maps,detail);
 
                 if (inNodeId != null && outNodeId != null) {
                     try {

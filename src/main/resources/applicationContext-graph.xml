@@ -33,8 +33,8 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         <property name="outId" value="PGROUPID"/>
         <property name="outProperties">
             <props>
-                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
+                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
                 <prop key="name">GROUPNAME</prop>
             </props>
         </property>
@@ -42,14 +42,16 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         <property name="inId" value="AJID"/>
         <property name="inProperties">
             <props>
-                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
+                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
                 <prop key="name">AJMC</prop>
             </props>
         </property>
         <!--关系语句-->
         <property name="relationSql">
-            <value>select t.*,(select GROUPNAME from T_GROUP g where g.id = t.pgroupid) as GROUPNAME,(select AJMC from B_ASJ_AJ a where a.id = t.AJID) as AJMC from T_AJGROUP t where 1=1</value>
+            <value>select t.*,(select GROUPNAME from T_GROUP g where g.id = t.pgroupid) as GROUPNAME,(select AJMC from
+                B_ASJ_AJ a where a.id = t.AJID) as AJMC from T_AJGROUP t where 1=1
+            </value>
         </property>
     </bean>
 
@@ -71,8 +73,8 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         <property name="outId" value="GROUPID"/>
         <property name="outProperties">
             <props>
-                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
+                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
                 <prop key="name">GROUPNAME</prop>
             </props>
         </property>
@@ -80,14 +82,16 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         <property name="inId" value="AJID"/>
         <property name="inProperties">
             <props>
-                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
+                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
                 <prop key="name">AJMC</prop>
             </props>
         </property>
         <!--关系语句-->
         <property name="relationSql">
-            <value>select t.*,(select GROUPNAME from T_GROUP g where g.id = t.groupid) as GROUPNAME,(select AJMC from B_ASJ_AJ a where a.id = t.AJID) as AJMC from T_AJGROUP t where 1=1</value>
+            <value>select t.*,(select GROUPNAME from T_GROUP g where g.id = t.groupid) as GROUPNAME,(select AJMC from
+                B_ASJ_AJ a where a.id = t.AJID) as AJMC from T_AJGROUP t where 1=1
+            </value>
         </property>
     </bean>
 
@@ -109,8 +113,8 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         <property name="outId" value="PGROUPID"/>
         <property name="outProperties">
             <props>
-                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
+                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
                 <prop key="name">GROUPNAME</prop>
             </props>
         </property>
@@ -118,14 +122,39 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         <property name="inId" value="ID"/>
         <property name="inProperties">
             <props>
-                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
+                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
                 <prop key="name">TASK_STR</prop>
+                <prop key="taskCreatorUserId">FQR</prop>
+                <prop key="taskCreateTime">FQ_TIME</prop>
+                <prop key="taskStatus">TASKSTATUS</prop>
             </props>
         </property>
         <!--关系语句-->
         <property name="relationSql">
-            <value>select t.*,(select GROUPNAME from T_GROUP g where g.id = t.pgroupid) as GROUPNAME,t.TASK_NAME || '@' || t.CREATETIME as TASK_STR from v_t_task_graphshow t where bcrwid is null and fkid is null and YJZT='0'</value>
+            <value>
+                select *
+                from (select g.id as groupid,
+                nvl(g.pgroupid,g.id) as pgroupid,
+                g.GROUPNAME as GROUPNAME,
+                t.id,
+                t.TASK_NAME || '@' || t.CREATETIME as TASK_STR,
+                t.fqr,
+                case
+                when t.FKJZ_TIME > sysdate and t.FKZT = '0' then
+                Translate('2' USING NCHAR_CS)
+                else
+                t.FKZT
+                end as taskstatus,
+                t.FQ_TIME
+                from T_GROUP g
+                left join v_t_task_graphshow t
+                on g.id = t.pgroupid
+                and t.bcrwid is null
+                and t.fkid is null
+                where 1 = 1) a
+                where 1 = 1
+            </value>
         </property>
     </bean>
 
@@ -147,8 +176,8 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         <property name="outId" value="GROUPID"/>
         <property name="outProperties">
             <props>
-                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
+                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
                 <prop key="name">GROUPNAME</prop>
             </props>
         </property>
@@ -156,14 +185,40 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         <property name="inId" value="ID"/>
         <property name="inProperties">
             <props>
-                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
+                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
                 <prop key="name">TASK_STR</prop>
+                <prop key="taskCreatorUserId">FQR</prop>
+                <prop key="taskCreateTime">FQ_TIME</prop>
+                <prop key="taskStatus">TASKSTATUS</prop>
             </props>
         </property>
         <!--关系语句-->
         <property name="relationSql">
-            <value>select t.*,(select GROUPNAME from T_GROUP g where g.id = t.groupid) as GROUPNAME,t.TASK_NAME || '@' || t.CREATETIME as TASK_STR from v_t_task_graphshow t where bcrwid is null and fkid is null and YJZT='0'</value>
+            <value>
+                select *
+                from (select
+                g.id as groupid,
+                nvl(g.pgroupid,g.id) as pgroupid,
+                g.GROUPNAME as GROUPNAME,
+                t.id,
+                t.TASK_NAME || '@' || t.CREATETIME as TASK_STR,
+                t.fqr,
+                case
+                when t.FKJZ_TIME > sysdate and t.FKZT = '0' then
+                Translate('2' USING NCHAR_CS)
+                else
+                t.FKZT
+                end as taskstatus,
+                t.FQ_TIME
+                from T_GROUP g
+                left join v_t_task_graphshow t
+                on g.id = t.groupid
+                and t.bcrwid is null
+                and t.fkid is null
+                where 1 = 1) a
+                where 1 = 1
+            </value>
         </property>
     </bean>
 
@@ -182,23 +237,50 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         <property name="outId" value="TASKID"/>
         <property name="outProperties">
             <props>
-                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
+                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
                 <prop key="name">PTASK_STR</prop>
+                <prop key="taskCreatorUserId">FQR</prop>
+                <prop key="taskCreateTime">FQ_TIME</prop>
+                <prop key="taskStatus">TASKSTATUS</prop>
             </props>
         </property>
         <property name="inLabel" ref="fkid"/>
         <property name="inId" value="ID"/>
         <property name="inProperties">
             <props>
-                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
+                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
                 <prop key="name">FKSTR</prop>
+                <prop key="feedBackUserId">FKR</prop>
             </props>
         </property>
         <!--关系语句-->
         <property name="relationSql">
-            <value>select t.*,(select a.TASK_NAME || '@' || a.CREATETIME as TASK_STR from v_t_task_graphshow a where a.id = t.TASKID ) as PTASK_STR,t.FKXS || '@' || t.CREATETIME as FKSTR from T_TASK_FK t where 1=1</value>
+            <value>
+                select *
+                from (select
+                g.groupid,
+                g.pgroupid,
+                g.id as taskid,
+                g.TASK_NAME || '@' || g.CREATETIME as PTASK_STR,
+                g.FQR,
+                case
+                when g.FKJZ_TIME > sysdate and g.FKZT = '0' then
+                Translate('2' USING NCHAR_CS)
+                else
+                g.FKZT
+                end as taskstatus,
+                g.FQ_TIME,
+                t.id,
+                t.fkr,
+                t.FKXS || '@' || t.CREATETIME as FKSTR
+                from v_t_task_graphshow g
+                left join T_TASK_FK t
+                on t.taskid = g.ID
+                where 1 = 1) a
+                where 1 = 1
+            </value>
         </property>
     </bean>
 
@@ -217,23 +299,50 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         <property name="outId" value="FKID"/>
         <property name="outProperties">
             <props>
-                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
+                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
                 <prop key="name">FKSTR</prop>
+                <prop key="feedBackUserId">FKR</prop>
             </props>
         </property>
         <property name="inLabel" ref="taskid"/>
         <property name="inId" value="ID"/>
         <property name="inProperties">
             <props>
-                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
+                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库能找到则直接返回（哪怕找到结果为空），数据库找不到该KEY字段则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
                 <prop key="name">TASK_STR</prop>
+                <prop key="taskCreatorUserId">FQR</prop>
+                <prop key="taskCreateTime">FQ_TIME</prop>
+                <prop key="taskStatus">TASKSTATUS</prop>
             </props>
         </property>
         <!--关系语句-->
         <property name="relationSql">
-            <value>select t.*,(select f.FKXS || '@' || f.CREATETIME from T_TASK_FK f where f.id = t.FKID) as FKSTR,t.TASK_NAME || '@' || t.CREATETIME as TASK_STR from v_t_task_graphshow t where YJZT='0'</value>
+            <value>
+                select *
+                from (select
+                g.groupid,
+                g.pgroupid,
+                g.id as fkid,
+                g.FKXS || '@' || g.CREATETIME as FKSTR,
+                g.fkr,
+                t.id,
+                t.TASK_NAME || '@' || t.CREATETIME as TASK_STR,
+                t.FQR,
+                case
+                when t.FKJZ_TIME > sysdate and t.FKZT = '0' then
+                Translate('2' USING NCHAR_CS)
+                else
+                t.FKZT
+                end as taskstatus,
+                t.FQ_TIME
+                from T_TASK_FK g
+                left join v_t_task_graphshow t
+                on g.id = t.FKID
+                where 1=1) a
+                where 1 = 1
+            </value>
         </property>
     </bean>
 
@@ -252,23 +361,59 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         <property name="outId" value="BCRWID"/>
         <property name="outProperties">
             <props>
-                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
+                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
                 <prop key="name">PTASK_STR</prop>
+                <prop key="taskCreatorUserId">PFQR</prop>
+                <prop key="taskCreateTime">PFQ_TIME</prop>
+                <prop key="taskStatus">PTASKSTATUS</prop>
             </props>
         </property>
         <property name="inLabel" ref="taskid"/>
         <property name="inId" value="ID"/>
         <property name="inProperties">
             <props>
-                <!--1，假如需要数据库翻译则首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则首字母需小写-->
+                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
+                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
                 <prop key="name">TASK_STR</prop>
+                <prop key="taskCreatorUserId">FQR</prop>
+                <prop key="taskCreateTime">FQ_TIME</prop>
+                <prop key="taskStatus">TASKSTATUS</prop>
             </props>
         </property>
         <!--关系语句-->
         <property name="relationSql">
-            <value>select t.*,(select a.TASK_NAME || '@' || a.CREATETIME from v_t_task_graphshow a where a.id = t.BCRWID ) as PTASK_STR,t.TASK_NAME || '@' || t.CREATETIME as TASK_STR from T_TASK t where YJZT='0'</value>
+            <value>
+                select *
+                from (select
+                t.GROUPID,
+                t.PGROUPID,
+                t.id as bcrwid,
+                t.TASK_NAME || '@' || t.CREATETIME as PTASK_STR,
+                t.FQR as pfqr,
+                case
+                when t.FKJZ_TIME > sysdate and t.FKZT = '0' then
+                Translate('2' USING NCHAR_CS)
+                else
+                t.FKZT
+                end as ptaskstatus,
+                t.FQ_TIME as pfq_time,
+                g.id,
+                g.TASK_NAME || '@' || g.CREATETIME as TASK_STR,
+                g.fqr,
+                case
+                when g.FKJZ_TIME > sysdate and g.FKZT = '0' then
+                Translate('2' USING NCHAR_CS)
+                else
+                g.FKZT
+                end as taskstatus,
+                g.FQ_TIME
+                from v_t_task_graphshow t
+                right join v_t_task_graphshow g
+                on g.id = t.BCRWID
+                where 1=1) a
+                where 1 = 1
+            </value>
         </property>
     </bean>
 

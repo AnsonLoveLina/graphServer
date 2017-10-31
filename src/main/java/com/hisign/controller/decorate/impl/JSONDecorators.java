@@ -5,8 +5,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.hisign.common.util.EasyJSONUtil;
 import com.hisign.controller.decorate.IJSONDecorators;
 import com.hisign.graph.core.travel.IVertexTravel;
+import jodd.util.StringUtil;
 import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
+
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 public class JSONDecorators implements IJSONDecorators {
 
@@ -21,9 +26,16 @@ public class JSONDecorators implements IJSONDecorators {
             public void nodeCallBack(Vertex vertex, int index) {
                 JSONObject jsonValue = new JSONObject();
                 jsonValue.put("id",vertex.id());
-                jsonValue.put("name",vertex.value("name"));
-                jsonValue.put("image",vertex.label()+".jpg");
                 jsonValue.put("type",vertex.label());
+                //需要初始化图片
+                jsonValue.put("image",vertex.label()+".jpg");
+                Set<String> properties = vertex.keys();
+                for (String key : properties){
+                    if (StringUtil.isEmpty(key)){
+                        continue;
+                    }
+                    jsonValue.put(key,vertex.value(key));
+                }
                 nodesJson.add(jsonValue);
             }
 
