@@ -2,7 +2,7 @@ package com.hisign.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.hisign.common.init.ASpringContextInit;
+import com.hisign.common.resource.ASpringContextInit;
 import com.hisign.common.resource.GraphRelation;
 import com.hisign.controller.decorate.impl.JSONDecorators;
 import com.hisign.graph.core.travel.GraphTravel;

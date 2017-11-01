@@ -2,7 +2,6 @@ package com.hisign.common.resource;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
-import com.hisign.common.init.ASpringContextInit;
 import jodd.util.StringUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

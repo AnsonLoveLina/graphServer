@@ -1,4 +1,4 @@
-package com.hisign.common.init;
+package com.hisign.common.resource;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

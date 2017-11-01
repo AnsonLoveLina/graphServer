@@ -1,7 +1,7 @@
 package com.hisign.graph.search.impl;
 
 import com.hisign.GraphServerStartApplication;
-import com.hisign.common.init.ASpringContextInit;
+import com.hisign.common.resource.ASpringContextInit;
 import com.hisign.common.resource.GraphRelation;
 import com.hisign.graph.search.IGraphSearcher;
 import org.apache.tinkerpop.gremlin.structure.*;
