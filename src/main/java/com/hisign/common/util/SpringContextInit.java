@@ -17,7 +17,6 @@ import java.io.InputStream;
 public class SpringContextInit implements ApplicationContextAware  {
     private static ApplicationContext applicationContext;
 
-
     public static InputStream getResource(String resourcePath) throws IOException {
         Resource resource = applicationContext.getResource(resourcePath);
         return resource.getInputStream();
@@ -25,6 +24,11 @@ public class SpringContextInit implements ApplicationContextAware  {
 
     public static ApplicationContext getContext() {
         return applicationContext;
+    }
+
+    public static void setStaticApplicationContext(ApplicationContext applicationContext1) throws BeansException {
+        System.out.println("set static appcontext!");
+        applicationContext = applicationContext1;
     }
 
     @Override
