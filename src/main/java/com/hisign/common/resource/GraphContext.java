@@ -2,7 +2,7 @@ package com.hisign.common.resource;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
-import com.hisign.common.util.SpringContextInit;
+import com.hisign.common.init.ASpringContextInit;
 import jodd.util.StringUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,6 +20,7 @@ import java.util.Set;
  * Created by zhouyi1 on 2016/6/27 0027.
  */
 @Service(value = "gxwj.context")
+//@Order
 //@Lazy
 public class GraphContext {
     private static final Log logger = LogFactory.getLog(GraphContext.class);
@@ -49,7 +50,7 @@ public class GraphContext {
     }
 
     private void springInit(){
-        ApplicationContext context = SpringContextInit.getContext();
+        ApplicationContext context = ASpringContextInit.getContext();
         Map<String, GraphRelation> relationMap = context.getBeansOfType(GraphRelation.class);
         for (GraphRelation relation : relationMap.values()) {
             nodeStrConfig.put(relation.getOutLabel().toString(), relation);

@@ -2,7 +2,7 @@ package com.hisign.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.hisign.common.util.SpringContextInit;
+import com.hisign.common.init.ASpringContextInit;
 import com.hisign.common.resource.GraphRelation;
 import com.hisign.controller.decorate.impl.JSONDecorators;
 import com.hisign.graph.core.travel.GraphTravel;
@@ -26,7 +26,7 @@ public class GraphController {
 
     @RequestMapping(value = "/getGraph", method = RequestMethod.GET)
     public String getGraph(String startNodeValue, String startNodeType,@RequestParam(defaultValue = "true") boolean detail) {
-        ApplicationContext context = SpringContextInit.getContext();
+        ApplicationContext context = ASpringContextInit.getContext();
         Map<String, GraphRelation> relationMap = context.getBeansOfType(GraphRelation.class);
         Graph graph = TinkerGraph.open();
         String conditionSql = "";

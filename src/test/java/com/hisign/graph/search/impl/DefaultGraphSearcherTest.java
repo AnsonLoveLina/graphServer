@@ -1,7 +1,7 @@
 package com.hisign.graph.search.impl;
 
 import com.hisign.GraphServerStartApplication;
-import com.hisign.common.util.SpringContextInit;
+import com.hisign.common.init.ASpringContextInit;
 import com.hisign.common.resource.GraphRelation;
 import com.hisign.graph.search.IGraphSearcher;
 import org.apache.tinkerpop.gremlin.structure.*;
@@ -67,7 +67,7 @@ public class DefaultGraphSearcherTest {
 
     @Test
     public void search() throws Exception {
-        ApplicationContext context = SpringContextInit.getContext();
+        ApplicationContext context = ASpringContextInit.getContext();
         Map<String, GraphRelation> relationMap = context.getBeansOfType(GraphRelation.class);
         Graph graph = TinkerGraph.open();
         for (GraphRelation relation : relationMap.values()) {

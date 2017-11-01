@@ -1,10 +1,12 @@
-package com.hisign.common.util;
+package com.hisign.common.init;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,7 +16,8 @@ import java.io.InputStream;
  * aware的方式比listener更早获得applicatioinContext
  */
 @Component
-public class SpringContextInit implements ApplicationContextAware  {
+@Order(value = 1)
+public class ASpringContextInit implements ApplicationContextAware  {
     private static ApplicationContext applicationContext;
 
     public static InputStream getResource(String resourcePath) throws IOException {
@@ -26,14 +29,9 @@ public class SpringContextInit implements ApplicationContextAware  {
         return applicationContext;
     }
 
-    public static void setStaticApplicationContext(ApplicationContext applicationContext1) throws BeansException {
-        System.out.println("set static appcontext!");
-        applicationContext = applicationContext1;
-    }
-
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        System.out.println("set appcontext!");
+//        System.out.println("set appcontext!");
         this.applicationContext = applicationContext;
     }
 }
