@@ -146,7 +146,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 else
                 t.FKZT
                 end as taskstatus,
-                t.FQ_TIME
+                to_char(t.FQ_TIME,'yyyy-mm-dd hh24:mi:ss') as FQ_TIME
                 from T_GROUP g
                 left join v_t_task_graphshow t
                 on g.id = t.pgroupid
@@ -210,7 +210,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 else
                 t.FKZT
                 end as taskstatus,
-                t.FQ_TIME
+                to_char(t.FQ_TIME,'yyyy-mm-dd hh24:mi:ss') as FQ_TIME
                 from T_GROUP g
                 left join v_t_task_graphshow t
                 on g.id = t.groupid
@@ -271,7 +271,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 else
                 g.FKZT
                 end as taskstatus,
-                g.FQ_TIME,
+                to_char(g.FQ_TIME,'yyyy-mm-dd hh24:mi:ss') as FQ_TIME,
                 t.id,
                 t.fkr,
                 t.FKXS || '@' || t.CREATETIME as FKSTR
@@ -336,7 +336,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 else
                 t.FKZT
                 end as taskstatus,
-                t.FQ_TIME
+                to_char(t.FQ_TIME,'yyyy-mm-dd hh24:mi:ss') as FQ_TIME
                 from T_TASK_FK g
                 left join v_t_task_graphshow t
                 on g.id = t.FKID
@@ -397,7 +397,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 else
                 t.FKZT
                 end as ptaskstatus,
-                t.FQ_TIME as pfq_time,
+                to_char(t.FQ_TIME,'yyyy-mm-dd hh24:mi:ss') as pfq_time,
                 g.id,
                 g.TASK_NAME || '@' || g.CREATETIME as TASK_STR,
                 g.fqr,
@@ -407,7 +407,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 else
                 g.FKZT
                 end as taskstatus,
-                g.FQ_TIME
+                to_char(g.FQ_TIME,'yyyy-mm-dd hh24:mi:ss') as FQ_TIME
                 from v_t_task_graphshow t
                 right join v_t_task_graphshow g
                 on g.id = t.BCRWID
