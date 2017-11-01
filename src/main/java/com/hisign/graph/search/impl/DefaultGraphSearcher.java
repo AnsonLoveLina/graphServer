@@ -50,7 +50,7 @@ public class DefaultGraphSearcher implements IGraphSearcher {
     private void setProperties(Element element, Properties properties, Map<String, Object> maps) {
         for (Map.Entry entry : properties.entrySet()) {
             String valueName = (entry.getValue()) == null ? "" : entry.getValue().toString();
-            //假如第一个字母是小写那么就直接使用原值
+            //假如第一个字母是小写那么就直接使用原值，不然的话map有就用map的
             char chr = valueName.charAt(0);
             if (Character.isLowerCase(chr)) {
                 element.property((String) entry.getKey(), valueName);
