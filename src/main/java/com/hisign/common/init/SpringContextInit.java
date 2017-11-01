@@ -29,6 +29,7 @@ public class SpringContextInit implements ApplicationContextAware  {
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        System.out.println("set appcontext!");
         this.applicationContext = applicationContext;
     }
 }
