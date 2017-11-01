@@ -17,7 +17,10 @@ spring:
     testOnBorrow: false
     poolPreparedStatements: true
     maxPoolPreparedStatementPerConnectionSize: 20
-    filters: stat
+    filters: stat,wall,log4j
+    loginUsername: admin
+    loginPassword: admin
+    resetEnable: false
 server:
   port: 8089
 logging:
