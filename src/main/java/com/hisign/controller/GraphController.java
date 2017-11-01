@@ -1,23 +1,14 @@
 package com.hisign.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.base.Function;
-import com.google.common.collect.Maps;
-import com.hisign.common.init.SpringContextInit;
+import com.hisign.common.util.SpringContextInit;
 import com.hisign.common.resource.GraphRelation;
-import com.hisign.common.util.EasyJSONUtil;
 import com.hisign.controller.decorate.impl.JSONDecorators;
 import com.hisign.graph.core.travel.GraphTravel;
-import com.hisign.graph.core.travel.IVertexTravel;
 import com.hisign.graph.search.IGraphSearcher;
-import org.apache.tinkerpop.gremlin.structure.Direction;
-import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Graph;
-import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,10 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 @RestController
 public class GraphController {

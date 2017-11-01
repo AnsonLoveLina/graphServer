@@ -1,23 +1,19 @@
 package com.hisign.graph.search.impl;
 
 import com.hisign.GraphServerStartApplication;
-import com.hisign.common.init.SpringContextInit;
-import com.hisign.common.resource.GraphContext;
+import com.hisign.common.util.SpringContextInit;
 import com.hisign.common.resource.GraphRelation;
 import com.hisign.graph.search.IGraphSearcher;
 import org.apache.tinkerpop.gremlin.structure.*;
-import org.apache.tinkerpop.gremlin.structure.util.GraphFactory;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.ApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import javax.annotation.Resource;
 import java.util.Iterator;
 import java.util.Map;
 
