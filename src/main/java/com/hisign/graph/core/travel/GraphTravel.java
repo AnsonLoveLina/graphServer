@@ -1,22 +1,28 @@
 package com.hisign.graph.core.travel;
 
-import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.hisign.common.util.VertexUtil;
 import org.apache.tinkerpop.gremlin.structure.Direction;
 import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class GraphTravel {
     private Graph graph;
+
+    public final static String indexKey = "INDEX";
+
+    public final static String inEdgeIndexKey = "inEdges";
+
+    public final static String outEdgeIndexKey = "outEdges";
 
     public GraphTravel(Graph graph) {
         this.graph = graph;
     }
 
-    private class Node{
+    private class Node {
         private Vertex vertex;
 
         public Node(Vertex vertex) {
@@ -27,7 +33,7 @@ public class GraphTravel {
             return vertex;
         }
 
-        public Object getId(){
+        public Object getId() {
             return vertex.id();
         }
 
@@ -50,25 +56,136 @@ public class GraphTravel {
         }
     }
 
-    public void travelVertex(IVertexTravel vertexTravel){
-        Iterator<Vertex> iterator = graph.vertices();
-        Map<Node,Integer> nodeIndex = Maps.newHashMap();
-        for (int index=0; iterator.hasNext();index++ ) {
-            Vertex vertex = iterator.next();
-            vertexTravel.nodeCallBack(vertex,index);
-            nodeIndex.put(new Node(vertex),index);
+    public class IndexObject {
+        private Integer index;
+
+        public IndexObject(Integer index) {
+            this.index = index;
         }
-        for (Map.Entry<Node,Integer> entry:nodeIndex.entrySet()){
-            Vertex outVertex = entry.getKey().getVertex();
-            Integer outIndex = entry.getValue();
-            Iterator<Edge> edgeIterator = outVertex.edges(Direction.OUT);
-            while (edgeIterator.hasNext()){
-                Edge edge = edgeIterator.next();
-                Vertex inVertex = edge.inVertex();
-                Integer inIndex = nodeIndex.get(new Node(inVertex));
-                vertexTravel.outEdgeCallBack(outVertex,outIndex,inVertex,inIndex,edge);
+
+        public Integer getIndex() {
+            return index;
+        }
+
+        public void setIndex(Integer index) {
+            this.index = index;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            IndexObject that = (IndexObject) o;
+
+            return index != null ? index.equals(that.index) : that.index == null;
+        }
+
+        @Override
+        public int hashCode() {
+            return index != null ? index.hashCode() : 0;
+        }
+    }
+
+    public class EdgeObject implements Comparable {
+        private Edge edge;
+
+        public EdgeObject(Edge edge) {
+            this.edge = edge;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            EdgeObject that = (EdgeObject) o;
+
+            return edge != null ? edge.equals(that.edge) : that.edge == null;
+        }
+
+        @Override
+        public int hashCode() {
+            return edge != null ? edge.hashCode() : 0;
+        }
+
+        public Edge getEdge() {
+            return edge;
+        }
+
+        @Override
+        public int compareTo(Object o) {
+            if (this == o || this.equals(o)) return 0;
+            if (o == null || getClass() != o.getClass()) return 0;
+
+            EdgeObject that = (EdgeObject) o;
+            if (that.getEdge().<Integer>value(GraphTravel.indexKey) < getEdge().<Integer>value(GraphTravel.indexKey)) {
+                return -1;
+            } else {
+                return 1;
             }
         }
-        nodeIndex = null;
+    }
+
+    /**
+     * o(2(v+e))
+     *
+     * @param vertexTravel
+     */
+    public void travelVertex(IVertexTravel vertexTravel) {
+        Iterator<Vertex> iterator = graph.vertices();
+//        Map<Node,Integer> nodeIndex = Maps.newHashMap();
+        Set<Vertex> nodes = Sets.newLinkedHashSet();
+        Set<Edge> edges = Sets.newLinkedHashSet();
+        int edgeIndex = 0;
+        for (int outIndex = 0; iterator.hasNext(); outIndex++) {
+            Vertex outVertex = iterator.next();
+            outVertex.property(GraphTravel.indexKey, outIndex);
+            nodes.add(outVertex);
+
+            Iterator<Edge> edgeOutIterator = outVertex.edges(Direction.OUT);
+            while (edgeOutIterator.hasNext()) {
+                Edge edge = edgeOutIterator.next();
+                if (!edges.contains(edge)) {
+                    edge.property(GraphTravel.indexKey, edgeIndex);
+                    edges.add(edge);
+
+                    Vertex inVertex = edge.inVertex();
+                    VertexUtil.putValue(outVertex, GraphTravel.outEdgeIndexKey, new IndexObject(edgeIndex));
+                    VertexUtil.putValue(inVertex, GraphTravel.inEdgeIndexKey, new IndexObject(edgeIndex));
+                    edgeIndex++;
+                }
+//                Vertex inVertex = edge.inVertex();
+//                Integer inIndex = VertexUtil.getValue(inVertex,GraphTravel.indexKey,null);
+////                Integer inIndex = nodeIndex.get(new Node(inVertex));
+//                vertexTravel.outEdgeCallBack(outVertex,outIndex,inVertex,inIndex,edge);
+            }
+        }
+
+        for (Edge edge : edges) {
+            Vertex outVertex = edge.outVertex();
+            Integer outIndex = VertexUtil.getValue(outVertex, GraphTravel.indexKey, null);
+            Vertex inVertex = edge.inVertex();
+            Integer inIndex = VertexUtil.getValue(inVertex, GraphTravel.indexKey, null);
+            vertexTravel.edgeCallBack(outVertex, outIndex, inVertex, inIndex, edge);
+        }
+
+        for (Vertex vertex : nodes) {
+            Integer index = VertexUtil.getValue(vertex, GraphTravel.indexKey, null);
+            vertexTravel.nodeCallBack(vertex, index);
+        }
+
+//        for (Map.Entry<Node,Integer> entry:nodeIndex.entrySet()){
+//            Vertex outVertex = entry.getKey().getVertex();
+//            Integer outIndex = entry.getValue();
+//            Iterator<Edge> edgeOutIterator = outVertex.edges(Direction.OUT);
+//            while (edgeOutIterator.hasNext()){
+//                Edge edge = edgeOutIterator.next();
+//                Vertex inVertex = edge.inVertex();
+//                Integer inIndex = nodeIndex.get(new Node(inVertex));
+//                vertexTravel.outEdgeCallBack(outVertex,outIndex,inVertex,inIndex,edge);
+//            }
+//        }
+//        nodeIndex = null;
     }
 }

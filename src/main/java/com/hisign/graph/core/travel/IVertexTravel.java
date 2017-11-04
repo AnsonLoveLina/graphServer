@@ -7,7 +7,8 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
 import java.util.Iterator;
 
 public interface IVertexTravel {
+
     public void nodeCallBack(Vertex vertex, int index);
 
-    public void outEdgeCallBack(Vertex outVertex, Integer outIndex, Vertex inVertex, Integer inIndex, Edge edge);
+    public void edgeCallBack(Vertex outVertex, Integer outIndex, Vertex inVertex, Integer inIndex, Edge edge);
 }

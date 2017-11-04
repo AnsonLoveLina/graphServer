@@ -41,6 +41,11 @@ public class GraphController {
             }
         }
 
+        String jsonStr = getJsonStr(graph);
+        return jsonStr;
+    }
+
+    public String getJsonStr(Graph graph){
         GraphTravel graphTravel = new GraphTravel(graph);
         JSONDecorators jsonDecorators = new JSONDecorators();
         graphTravel.travelVertex(jsonDecorators.getIVertexTravel());

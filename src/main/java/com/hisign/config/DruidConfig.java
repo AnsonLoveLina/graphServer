@@ -3,6 +3,8 @@ package com.hisign.config;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
+import com.alibaba.druid.wall.WallFilter;
+import com.google.common.collect.Lists;
 import jodd.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,8 +77,17 @@ public class DruidConfig {
 
     private String deny;
 
+    @Bean(name="wall")
+    public WallFilter wallFilter(){
+        WallFilter wallFilter = new WallFilter();
+        //违规检查出来，但是不影响业务的进行，以免配置出现：1，where子永真。2，select * (select )嵌套
+        wallFilter.setLogViolation(true);
+        wallFilter.setThrowException(false);
+        return wallFilter;
+    }
+
     @Bean(name = "dataSource",initMethod = "init",destroyMethod = "close")
-    public DataSource dataSource() throws SQLException {
+    public DataSource dataSource(WallFilter wallFilter) throws SQLException {
         logger.debug("Configruing DruidDataSoure");
         DruidDataSource druidDataSource = new DruidDataSource();
         druidDataSource.setUrl(dbUrl);
@@ -96,6 +107,7 @@ public class DruidConfig {
         druidDataSource.setPoolPreparedStatements(poolPreparedStatements);
         druidDataSource.setMaxPoolPreparedStatementPerConnectionSize(maxPoolPreparedStatementPerConnectionSize);
         druidDataSource.setFilters(filters);
+        druidDataSource.setProxyFilters(Lists.newArrayList(wallFilter));
         return druidDataSource;
     }
 
