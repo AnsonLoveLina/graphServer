@@ -22,7 +22,7 @@ spring:
     loginPassword: admin
     resetEnable: false
 server:
-  port: 8088
+  port: 8090
 logging:
   file: graphServer.log
   path: logs
