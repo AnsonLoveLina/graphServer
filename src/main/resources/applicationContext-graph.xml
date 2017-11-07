@@ -138,7 +138,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 nvl(g.pgroupid,g.id) as pgroupid,
                 g.GROUPNAME as GROUPNAME,
                 t.id,
-                t.TASK_NAME || '@' || t.CREATETIME as TASK_STR,
+                t.TASK_CONTENT || '@' || t.CREATETIME as TASK_STR,
                 t.fqr,
                 case
                 when t.FKJZ_TIME > sysdate and t.FKZT = '0' then
@@ -202,7 +202,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 nvl(g.pgroupid,g.id) as pgroupid,
                 g.GROUPNAME as GROUPNAME,
                 t.id,
-                t.TASK_NAME || '@' || t.CREATETIME as TASK_STR,
+                t.TASK_CONTENT || '@' || t.CREATETIME as TASK_STR,
                 t.fqr,
                 case
                 when t.FKJZ_TIME > sysdate and t.FKZT = '0' then
@@ -263,7 +263,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 g.groupid,
                 g.pgroupid,
                 g.id as taskid,
-                g.TASK_NAME || '@' || g.CREATETIME as PTASK_STR,
+                g.TASK_CONTENT || '@' || g.CREATETIME as PTASK_STR,
                 g.FQR,
                 case
                 when g.FKJZ_TIME > sysdate and g.FKZT = '0' then
@@ -328,7 +328,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 g.FKXS || '@' || g.CREATETIME as FKSTR,
                 g.fkr,
                 t.id,
-                t.TASK_NAME || '@' || t.CREATETIME as TASK_STR,
+                t.TASK_CONTENT || '@' || t.CREATETIME as TASK_STR,
                 t.FQR,
                 case
                 when t.FKJZ_TIME > sysdate and t.FKZT = '0' then
@@ -389,7 +389,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 t.GROUPID,
                 t.PGROUPID,
                 t.id as bcrwid,
-                t.TASK_NAME || '@' || t.CREATETIME as PTASK_STR,
+                t.TASK_CONTENT || '@' || t.CREATETIME as PTASK_STR,
                 t.FQR as pfqr,
                 case
                 when t.FKJZ_TIME > sysdate and t.FKZT = '0' then
@@ -399,7 +399,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 end as ptaskstatus,
                 to_char(t.FQ_TIME,'yyyy-mm-dd hh24:mi:ss') as pfq_time,
                 g.id,
-                g.TASK_NAME || '@' || g.CREATETIME as TASK_STR,
+                g.TASK_CONTENT || '@' || g.CREATETIME as TASK_STR,
                 g.fqr,
                 case
                 when g.FKJZ_TIME > sysdate and g.FKZT = '0' then
