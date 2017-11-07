@@ -138,7 +138,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 nvl(g.pgroupid,g.id) as pgroupid,
                 g.GROUPNAME as GROUPNAME,
                 t.id,
-                substr(t.TASK_CONTENT,0,15) || '@' || t.CREATETIME as TASK_STR,
+                substr(t.TASK_CONTENT,0,15) || '@' || to_char(t.CREATETIME,'yyyy-mm-dd hh24:mi:ss') as TASK_STR,
                 t.fqr,
                 case
                 when t.FKJZ_TIME > sysdate and t.FKZT = '0' then
@@ -202,7 +202,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 nvl(g.pgroupid,g.id) as pgroupid,
                 g.GROUPNAME as GROUPNAME,
                 t.id,
-                substr(t.TASK_CONTENT,0,15) || '@' || t.CREATETIME as TASK_STR,
+                substr(t.TASK_CONTENT,0,15) || '@' || to_char(t.CREATETIME,'yyyy-mm-dd hh24:mi:ss') as TASK_STR,
                 t.fqr,
                 case
                 when t.FKJZ_TIME > sysdate and t.FKZT = '0' then
@@ -263,7 +263,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 g.groupid,
                 g.pgroupid,
                 g.id as taskid,
-                substr(g.TASK_CONTENT,0,15) || '@' || g.CREATETIME as PTASK_STR,
+                substr(g.TASK_CONTENT,0,15) || '@' || to_char(g.CREATETIME,'yyyy-mm-dd hh24:mi:ss') as PTASK_STR,
                 g.FQR,
                 case
                 when g.FKJZ_TIME > sysdate and g.FKZT = '0' then
@@ -274,7 +274,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 to_char(g.FQ_TIME,'yyyy-mm-dd hh24:mi:ss') as FQ_TIME,
                 t.id,
                 t.fkr,
-                substr(t.FKXS,0,15) || '@' || t.CREATETIME as FKSTR
+                substr(t.FKXS,0,15) || '@' || to_char(t.CREATETIME,'yyyy-mm-dd hh24:mi:ss') as FKSTR
                 from v_t_task_graphshow g
                 left join T_TASK_FK t
                 on t.taskid = g.ID
@@ -325,10 +325,10 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 g.groupid,
                 g.pgroupid,
                 g.id as fkid,
-                substr(g.FKXS,0,15) || '@' || g.CREATETIME as FKSTR,
+                substr(g.FKXS,0,15) || '@' || to_char(g.CREATETIME,'yyyy-mm-dd hh24:mi:ss') as FKSTR,
                 g.fkr,
                 t.id,
-                substr(t.TASK_CONTENT,0,15) || '@' || t.CREATETIME as TASK_STR,
+                substr(t.TASK_CONTENT,0,15) || '@' || to_char(t.CREATETIME,'yyyy-mm-dd hh24:mi:ss') as TASK_STR,
                 t.FQR,
                 case
                 when t.FKJZ_TIME > sysdate and t.FKZT = '0' then
@@ -389,7 +389,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 t.GROUPID,
                 t.PGROUPID,
                 t.id as bcrwid,
-                substr(t.TASK_CONTENT,0,15) || '@' || t.CREATETIME as PTASK_STR,
+                substr(t.TASK_CONTENT,0,15) || '@' || to_char(t.CREATETIME,'yyyy-mm-dd hh24:mi:ss') as PTASK_STR,
                 t.FQR as pfqr,
                 case
                 when t.FKJZ_TIME > sysdate and t.FKZT = '0' then
@@ -399,7 +399,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 end as ptaskstatus,
                 to_char(t.FQ_TIME,'yyyy-mm-dd hh24:mi:ss') as pfq_time,
                 g.id,
-                substr(g.TASK_CONTENT,0,15) || '@' || g.CREATETIME as TASK_STR,
+                substr(g.TASK_CONTENT,0,15) || '@' || to_char(g.CREATETIME,'yyyy-mm-dd hh24:mi:ss') as TASK_STR,
                 g.fqr,
                 case
                 when g.FKJZ_TIME > sysdate and g.FKZT = '0' then
