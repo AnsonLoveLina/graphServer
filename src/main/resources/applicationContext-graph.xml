@@ -261,7 +261,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 select *
                 from (select
                 g.groupid,
-                g.pgroupid,
+                nvl(g.pgroupid,g.groupid) as pgroupid,
                 g.id as taskid,
                 substr(g.TASK_CONTENT,0,15) || '@' || to_char(g.CREATETIME,'yyyy-mm-dd hh24:mi:ss') as PTASK_STR,
                 g.FQR,
@@ -323,7 +323,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 select *
                 from (select
                 g.groupid,
-                g.pgroupid,
+                nvl(g.pgroupid,g.groupid) as pgroupid,
                 g.id as fkid,
                 substr(g.FKXS,0,15) || '@' || to_char(g.CREATETIME,'yyyy-mm-dd hh24:mi:ss') as FKSTR,
                 g.fkr,
@@ -387,7 +387,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 select *
                 from (select
                 t.GROUPID,
-                t.PGROUPID,
+                nvl(t.pgroupid,t.groupid) as pgroupid,
                 t.id as bcrwid,
                 substr(t.TASK_CONTENT,0,15) || '@' || to_char(t.CREATETIME,'yyyy-mm-dd hh24:mi:ss') as PTASK_STR,
                 t.FQR as pfqr,
