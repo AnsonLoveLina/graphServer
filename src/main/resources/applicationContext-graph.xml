@@ -49,8 +49,8 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         </property>
         <!--关系语句-->
         <property name="relationSql">
-            <value>select t.*,(select GROUPNAME from T_GROUP g where g.id = t.pgroupid) as GROUPNAME,(select AJMC from
-                B_ASJ_AJ a where a.id = t.AJID) as AJMC from T_AJGROUP t where 1=1
+            <value>select * from(select t.groupid,nvl(t.pgroupid,t.groupid) as pgroupid,(select GROUPNAME from T_GROUP g where g.id = t.pgroupid) as GROUPNAME,(select AJMC from
+                B_ASJ_AJ a where a.id = t.AJID) as AJMC,t.ajid from T_AJGROUP t) a where 1=1
             </value>
         </property>
     </bean>
