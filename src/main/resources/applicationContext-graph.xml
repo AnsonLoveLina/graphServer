@@ -130,6 +130,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
                 <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
                 <prop key="name">TASK_STR</prop>
+                <prop key="taskReceiveUserId">JSR</prop>
                 <prop key="taskCreatorUserId">FQR</prop>
                 <prop key="taskCreateTime">FQ_TIME</prop>
                 <prop key="taskStatus">TASKSTATUS</prop>
@@ -145,6 +146,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 t.id,
                 substr(t.TASK_CONTENT,0,15) || '@' || to_char(t.CREATETIME,'yyyy-mm-dd hh24:mi:ss') as TASK_STR,
                 t.fqr,
+                t.jsr,
                 case
                 when t.FKJZ_TIME > sysdate and t.FKZT = '0' then
                 Translate('2' USING NCHAR_CS)
@@ -193,6 +195,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
                 <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
                 <prop key="name">TASK_STR</prop>
+                <prop key="taskReceiveUserId">JSR</prop>
                 <prop key="taskCreatorUserId">FQR</prop>
                 <prop key="taskCreateTime">FQ_TIME</prop>
                 <prop key="taskStatus">TASKSTATUS</prop>
@@ -209,6 +212,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 t.id,
                 substr(t.TASK_CONTENT,0,15) || '@' || to_char(t.CREATETIME,'yyyy-mm-dd hh24:mi:ss') as TASK_STR,
                 t.fqr,
+                t.jsr,
                 case
                 when t.FKJZ_TIME > sysdate and t.FKZT = '0' then
                 Translate('2' USING NCHAR_CS)
@@ -245,6 +249,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
                 <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
                 <prop key="name">PTASK_STR</prop>
+                <prop key="taskReceiveUserId">JSR</prop>
                 <prop key="taskCreatorUserId">FQR</prop>
                 <prop key="taskCreateTime">FQ_TIME</prop>
                 <prop key="taskStatus">TASKSTATUS</prop>
@@ -270,6 +275,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 g.id as taskid,
                 substr(g.TASK_CONTENT,0,15) || '@' || to_char(g.CREATETIME,'yyyy-mm-dd hh24:mi:ss') as PTASK_STR,
                 g.FQR,
+                g.JSR,
                 case
                 when g.FKJZ_TIME > sysdate and g.FKZT = '0' then
                 Translate('2' USING NCHAR_CS)
@@ -317,6 +323,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
                 <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
                 <prop key="name">TASK_STR</prop>
+                <prop key="taskReceiveUserId">JSR</prop>
                 <prop key="taskCreatorUserId">FQR</prop>
                 <prop key="taskCreateTime">FQ_TIME</prop>
                 <prop key="taskStatus">TASKSTATUS</prop>
@@ -335,6 +342,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 t.id,
                 substr(t.TASK_CONTENT,0,15) || '@' || to_char(t.CREATETIME,'yyyy-mm-dd hh24:mi:ss') as TASK_STR,
                 t.FQR,
+                t.JSR,
                 case
                 when t.FKJZ_TIME > sysdate and t.FKZT = '0' then
                 Translate('2' USING NCHAR_CS)
@@ -369,6 +377,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
                 <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
                 <prop key="name">PTASK_STR</prop>
+                <prop key="taskReceiveUserId">PJSR</prop>
                 <prop key="taskCreatorUserId">PFQR</prop>
                 <prop key="taskCreateTime">PFQ_TIME</prop>
                 <prop key="taskStatus">PTASKSTATUS</prop>
@@ -381,6 +390,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
                 <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
                 <prop key="name">TASK_STR</prop>
+                <prop key="taskReceiveUserId">JSR</prop>
                 <prop key="taskCreatorUserId">FQR</prop>
                 <prop key="taskCreateTime">FQ_TIME</prop>
                 <prop key="taskStatus">TASKSTATUS</prop>
@@ -396,6 +406,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 t.id as bcrwid,
                 substr(t.TASK_CONTENT,0,15) || '@' || to_char(t.CREATETIME,'yyyy-mm-dd hh24:mi:ss') as PTASK_STR,
                 t.FQR as pfqr,
+                t.JSR as pjsr,
                 case
                 when t.FKJZ_TIME > sysdate and t.FKZT = '0' then
                 Translate('2' USING NCHAR_CS)
@@ -406,6 +417,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 g.id,
                 substr(g.TASK_CONTENT,0,15) || '@' || to_char(g.CREATETIME,'yyyy-mm-dd hh24:mi:ss') as TASK_STR,
                 g.fqr,
+                g.jsr,
                 case
                 when g.FKJZ_TIME > sysdate and g.FKZT = '0' then
                 Translate('2' USING NCHAR_CS)
