@@ -427,7 +427,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 to_char(g.FQ_TIME,'yyyy-mm-dd hh24:mi:ss') as FQ_TIME
                 from v_t_task_graphshow t
                 right join v_t_task_graphshow g
-                on g.id = t.BCRWID
+                on g.BCRWID = t.id
                 where 1=1) a
                 where 1 = 1
             </value>
