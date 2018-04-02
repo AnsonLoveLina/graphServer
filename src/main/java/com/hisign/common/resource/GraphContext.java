@@ -7,6 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ import java.util.Set;
  */
 @Service(value = "gxwj.context")
 //@Order
-//@Lazy
+@Lazy
 public class GraphContext {
     private static final Log logger = LogFactory.getLog(GraphContext.class);
     public final static String defaultRelation = "normalRelation";

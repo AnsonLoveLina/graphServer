@@ -16,7 +16,6 @@ import java.io.InputStream;
  * aware的方式比listener更早获得applicatioinContext
  */
 @Component
-@Order(value = 1)
 public class ASpringContextInit implements ApplicationContextAware  {
     private static ApplicationContext applicationContext;
 
