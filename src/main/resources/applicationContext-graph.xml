@@ -17,54 +17,6 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
 
     <!--配置关系，假如关系可以从A->B，也可以从B->A的话需要配置两个-->
     <bean class="com.hisign.common.resource.GraphRelation">
-        <!-- 假如传入参数的type和VALUE一致则该关系不予查询。 -->
-        <!-- 用途1，子专案组查询则删除父关联，父专案组查询则删除子关联 -->
-        <property name="typeDelete" value="groupid"/>
-        <property name="relationProperties">
-            <props>
-                <prop key="name">涉及案件</prop>
-                <prop key="tableName">T_AJGROUP</prop>
-                <prop key="code">pgroup2aj</prop>
-            </props>
-        </property>
-        <property name="relationLabel" value="group2aj"/>
-        <!--从out到in-->
-        <property name="outLabel" ref="groupid"/>
-        <property name="outId" value="PGROUPID"/>
-        <property name="outProperties">
-            <props>
-                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
-                <prop key="name">GROUPNAME</prop>
-            </props>
-        </property>
-        <property name="inLabel" ref="ajid"/>
-        <property name="inId" value="AJID"/>
-        <property name="inProperties">
-            <props>
-                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
-                <prop key="name">AJMC</prop>
-            </props>
-        </property>
-        <!--关系语句-->
-        <property name="relationSql">
-            <value>select (select GROUPNAME from T_GROUP g where g.id = a.pgroupid) as GROUPNAME,
-                a.*
-                from (select t.groupid,
-                nvl(t.pgroupid, t.groupid) as pgroupid,
-                (select AJMC from B_ASJ_AJ a where a.id = t.AJID) as AJMC,
-                t.ajid
-                from T_AJGROUP t) a where 1=1
-            </value>
-        </property>
-    </bean>
-
-    <!--配置关系，假如关系可以从A->B，也可以从B->A的话需要配置两个-->
-    <bean class="com.hisign.common.resource.GraphRelation">
-        <!-- 假如传入参数的type和VALUE一致则该关系不予查询。 -->
-        <!-- 用途1，子专案组查询则删除父关联，父专案组查询则删除子关联 -->
-        <property name="typeDelete" value="pgroupid"/>
         <property name="relationProperties">
             <props>
                 <prop key="name">涉及案件</prop>
@@ -94,82 +46,18 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         </property>
         <!--关系语句-->
         <property name="relationSql">
-            <value>select t.*,(select GROUPNAME from T_GROUP g where g.id = t.groupid) as GROUPNAME,(select AJMC from
-                B_ASJ_AJ a where a.id = t.AJID) as AJMC from T_AJGROUP t where 1=1
+            <value>select * from(select t.group_id as GROUPID,
+                t.case_id as AJID,
+                (select g.group_name from T_GROUP g where g.id = t.group_id) as GROUPNAME,
+                (select AJMC from T_CASE a where a.id = t.case_id) as AJMC
+                from T_CASE_GROUP t
+                where 1 = 1) a where 1=1
             </value>
         </property>
     </bean>
 
     <!--配置关系，假如关系可以从A->B，也可以从B->A的话需要配置两个-->
     <bean class="com.hisign.common.resource.GraphRelation">
-        <!-- 假如传入参数的type和VALUE一致则该关系不予查询。 -->
-        <!-- 用途1，子专案组查询则删除父关联，父专案组查询则删除子关联 -->
-        <property name="typeDelete" value="groupid"/>
-        <property name="relationProperties">
-            <props>
-                <prop key="name">新任务</prop>
-                <prop key="tableName">T_TASK</prop>
-                <prop key="code">pgroup2task</prop>
-            </props>
-        </property>
-        <property name="relationLabel" value="group2task"/>
-        <!--从out到in-->
-        <property name="outLabel" ref="groupid"/>
-        <property name="outId" value="PGROUPID"/>
-        <property name="outProperties">
-            <props>
-                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
-                <prop key="name">GROUPNAME</prop>
-            </props>
-        </property>
-        <property name="inLabel" ref="taskid"/>
-        <property name="inId" value="ID"/>
-        <property name="inProperties">
-            <props>
-                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
-                <prop key="name">TASK_STR</prop>
-                <prop key="taskReceiveUserId">JSR</prop>
-                <prop key="taskCreatorUserId">FQR</prop>
-                <prop key="taskCreateTime">FQ_TIME</prop>
-                <prop key="taskStatus">TASKSTATUS</prop>
-            </props>
-        </property>
-        <!--关系语句-->
-        <property name="relationSql">
-            <value>
-                select *
-                from (select g.id as groupid,
-                nvl(g.pgroupid,g.id) as pgroupid,
-                g.GROUPNAME as GROUPNAME,
-                t.id,
-                substr(t.TASK_CONTENT,0,15) || '@' || to_char(t.CREATETIME,'yyyy-mm-dd hh24:mi:ss') as TASK_STR,
-                t.fqr,
-                t.jsr,
-                case
-                when t.FKJZ_TIME > sysdate and t.FKZT = '0' then
-                Translate('2' USING NCHAR_CS)
-                else
-                t.FKZT
-                end as taskstatus,
-                to_char(t.FQ_TIME,'yyyy-mm-dd hh24:mi:ss') as FQ_TIME
-                from T_GROUP g
-                left join v_t_task_graphshow t
-                on g.id = t.pgroupid
-                and t.bcrwid is null
-                and t.fkid is null
-                where 1 = 1) a
-                where 1 = 1
-            </value>
-        </property>
-    </bean>
-
-    <!--配置关系，假如关系可以从A->B，也可以从B->A的话需要配置两个-->
-    <bean class="com.hisign.common.resource.GraphRelation">
-        <!-- 假如传入参数的type和VALUE一致则该关系不予查询。 -->
-        <!-- 用途1，子专案组查询则删除父关联，父专案组查询则删除子关联 -->
-        <property name="typeDelete" value="pgroupid"/>
         <property name="relationProperties">
             <props>
                 <prop key="name">新任务</prop>
@@ -195,36 +83,22 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
                 <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
                 <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
                 <prop key="name">TASK_STR</prop>
-                <prop key="taskReceiveUserId">JSR</prop>
-                <prop key="taskCreatorUserId">FQR</prop>
-                <prop key="taskCreateTime">FQ_TIME</prop>
-                <prop key="taskStatus">TASKSTATUS</prop>
+                <prop key="taskContent">TASK_CONTENT</prop>
             </props>
         </property>
         <!--关系语句-->
         <property name="relationSql">
             <value>
                 select *
-                from (select
-                g.id as groupid,
-                nvl(g.pgroupid,g.id) as pgroupid,
-                g.GROUPNAME as GROUPNAME,
+                from (select g.id as groupid,
+                g.group_name as GROUPNAME,
                 t.id,
-                substr(t.TASK_CONTENT,0,15) || '@' || to_char(t.CREATETIME,'yyyy-mm-dd hh24:mi:ss') as TASK_STR,
-                t.fqr,
-                t.jsr,
-                case
-                when t.FKJZ_TIME > sysdate and t.FKZT = '0' then
-                Translate('2' USING NCHAR_CS)
-                else
-                t.FKZT
-                end as taskstatus,
-                to_char(t.FQ_TIME,'yyyy-mm-dd hh24:mi:ss') as FQ_TIME
+                substr(t.TASK_CONTENT, 0, 15) || '@' ||
+                to_char(t.create_time, 'yyyy-mm-dd hh24:mi:ss') as TASK_STR,
+                t.task_content as TASK_CONTENT
                 from T_GROUP g
-                left join v_t_task_graphshow t
-                on g.id = t.groupid
-                and t.bcrwid is null
-                and t.fkid is null
+                left join t_task t
+                on g.id = t.group_id
                 where 1 = 1) a
                 where 1 = 1
             </value>
@@ -248,11 +122,8 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
             <props>
                 <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
                 <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
-                <prop key="name">PTASK_STR</prop>
-                <prop key="taskReceiveUserId">JSR</prop>
-                <prop key="taskCreatorUserId">FQR</prop>
-                <prop key="taskCreateTime">FQ_TIME</prop>
-                <prop key="taskStatus">TASKSTATUS</prop>
+                <prop key="name">TASK_STR</prop>
+                <prop key="taskContent">TASK_CONTENT</prop>
             </props>
         </property>
         <property name="inLabel" ref="fkid"/>
@@ -261,174 +132,27 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
             <props>
                 <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
                 <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
-                <prop key="name">FKSTR</prop>
-                <prop key="feedBackUserId">FKR</prop>
+                <prop key="name">FEEDBACK_STR</prop>
+                <prop key="feedbackContent">FEEDBACK_CONTENT</prop>
             </props>
         </property>
         <!--关系语句-->
         <property name="relationSql">
             <value>
                 select *
-                from (select
-                g.groupid,
-                nvl(g.pgroupid,g.groupid) as pgroupid,
+                from (select g.group_id as groupid,
                 g.id as taskid,
-                substr(g.TASK_CONTENT,0,15) || '@' || to_char(g.CREATETIME,'yyyy-mm-dd hh24:mi:ss') as PTASK_STR,
-                g.FQR,
-                g.JSR,
-                case
-                when g.FKJZ_TIME > sysdate and g.FKZT = '0' then
-                Translate('2' USING NCHAR_CS)
-                else
-                g.FKZT
-                end as taskstatus,
-                to_char(g.FQ_TIME,'yyyy-mm-dd hh24:mi:ss') as FQ_TIME,
+                substr(g.TASK_CONTENT, 0, 15) || '@' ||
+                to_char(g.create_time, 'yyyy-mm-dd hh24:mi:ss') as TASK_STR,
+                g.task_content,
                 t.id,
-                t.fkr,
-                substr(t.FKXS,0,15) || '@' || to_char(t.CREATETIME,'yyyy-mm-dd hh24:mi:ss') as FKSTR
-                from v_t_task_graphshow g
-                left join T_TASK_FK t
-                on t.taskid = g.ID
+                substr(t.feedback_content, 0, 15) || '@' ||
+                to_char(t.create_time, 'yyyy-mm-dd hh24:mi:ss') as FEEDBACK_STR,
+                t.feedback_content
+                from T_TASK g
+                left join T_TASK_FEEDBACK t
+                on t.task_id = g.ID
                 where 1 = 1) a
-                where 1 = 1
-            </value>
-        </property>
-    </bean>
-
-    <!--配置关系，假如关系可以从A->B，也可以从B->A的话需要配置两个-->
-    <bean class="com.hisign.common.resource.GraphRelation">
-        <property name="relationProperties">
-            <props>
-                <prop key="name">追加任务</prop>
-                <prop key="tableName">T_TASK</prop>
-                <prop key="code">fk2task</prop>
-            </props>
-        </property>
-        <property name="relationLabel" value="fk2task"/>
-        <!--从out到in-->
-        <property name="outLabel" ref="fkid"/>
-        <property name="outId" value="FKID"/>
-        <property name="outProperties">
-            <props>
-                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
-                <prop key="name">FKSTR</prop>
-                <prop key="feedBackUserId">FKR</prop>
-            </props>
-        </property>
-        <property name="inLabel" ref="taskid"/>
-        <property name="inId" value="ID"/>
-        <property name="inProperties">
-            <props>
-                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
-                <prop key="name">TASK_STR</prop>
-                <prop key="taskReceiveUserId">JSR</prop>
-                <prop key="taskCreatorUserId">FQR</prop>
-                <prop key="taskCreateTime">FQ_TIME</prop>
-                <prop key="taskStatus">TASKSTATUS</prop>
-            </props>
-        </property>
-        <!--关系语句-->
-        <property name="relationSql">
-            <value>
-                select *
-                from (select
-                g.groupid,
-                nvl(g.pgroupid,g.groupid) as pgroupid,
-                g.id as fkid,
-                substr(g.FKXS,0,15) || '@' || to_char(g.CREATETIME,'yyyy-mm-dd hh24:mi:ss') as FKSTR,
-                g.fkr,
-                t.id,
-                substr(t.TASK_CONTENT,0,15) || '@' || to_char(t.CREATETIME,'yyyy-mm-dd hh24:mi:ss') as TASK_STR,
-                t.FQR,
-                t.JSR,
-                case
-                when t.FKJZ_TIME > sysdate and t.FKZT = '0' then
-                Translate('2' USING NCHAR_CS)
-                else
-                t.FKZT
-                end as taskstatus,
-                to_char(t.FQ_TIME,'yyyy-mm-dd hh24:mi:ss') as FQ_TIME
-                from T_TASK_FK g
-                left join v_t_task_graphshow t
-                on g.id = t.FKID
-                where 1=1) a
-                where 1 = 1
-            </value>
-        </property>
-    </bean>
-
-    <!--配置关系，假如关系可以从A->B，也可以从B->A的话需要配置两个-->
-    <bean class="com.hisign.common.resource.GraphRelation">
-        <property name="relationProperties">
-            <props>
-                <prop key="name">任务补充</prop>
-                <prop key="tableName">T_TASK</prop>
-                <prop key="code">task2task</prop>
-            </props>
-        </property>
-        <property name="relationLabel" value="task2task"/>
-        <!--从out到in-->
-        <property name="outLabel" ref="taskid"/>
-        <property name="outId" value="BCRWID"/>
-        <property name="outProperties">
-            <props>
-                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
-                <prop key="name">PTASK_STR</prop>
-                <prop key="taskReceiveUserId">PJSR</prop>
-                <prop key="taskCreatorUserId">PFQR</prop>
-                <prop key="taskCreateTime">PFQ_TIME</prop>
-                <prop key="taskStatus">PTASKSTATUS</prop>
-            </props>
-        </property>
-        <property name="inLabel" ref="taskid"/>
-        <property name="inId" value="ID"/>
-        <property name="inProperties">
-            <props>
-                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
-                <prop key="name">TASK_STR</prop>
-                <prop key="taskReceiveUserId">JSR</prop>
-                <prop key="taskCreatorUserId">FQR</prop>
-                <prop key="taskCreateTime">FQ_TIME</prop>
-                <prop key="taskStatus">TASKSTATUS</prop>
-            </props>
-        </property>
-        <!--关系语句-->
-        <property name="relationSql">
-            <value>
-                select *
-                from (select
-                t.GROUPID,
-                nvl(t.pgroupid,t.groupid) as pgroupid,
-                t.id as bcrwid,
-                substr(t.TASK_CONTENT,0,15) || '@' || to_char(t.CREATETIME,'yyyy-mm-dd hh24:mi:ss') as PTASK_STR,
-                t.FQR as pfqr,
-                t.JSR as pjsr,
-                case
-                when t.FKJZ_TIME > sysdate and t.FKZT = '0' then
-                Translate('2' USING NCHAR_CS)
-                else
-                t.FKZT
-                end as ptaskstatus,
-                to_char(t.FQ_TIME,'yyyy-mm-dd hh24:mi:ss') as pfq_time,
-                g.id,
-                substr(g.TASK_CONTENT,0,15) || '@' || to_char(g.CREATETIME,'yyyy-mm-dd hh24:mi:ss') as TASK_STR,
-                g.fqr,
-                g.jsr,
-                case
-                when g.FKJZ_TIME > sysdate and g.FKZT = '0' then
-                Translate('2' USING NCHAR_CS)
-                else
-                g.FKZT
-                end as taskstatus,
-                to_char(g.FQ_TIME,'yyyy-mm-dd hh24:mi:ss') as FQ_TIME
-                from v_t_task_graphshow t
-                right join v_t_task_graphshow g
-                on g.BCRWID = t.id
-                where 1=1) a
                 where 1 = 1
             </value>
         </property>
