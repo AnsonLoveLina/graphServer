@@ -30,8 +30,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         <property name="outId" value="GROUPID"/>
         <property name="outProperties">
             <props>
-                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
+                <!--1，数据库找不到则直接返回VALUE。-->
                 <prop key="name">GROUPNAME</prop>
             </props>
         </property>
@@ -39,8 +38,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         <property name="inId" value="AJID"/>
         <property name="inProperties">
             <props>
-                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
+                <!--1，数据库找不到则直接返回VALUE。-->
                 <prop key="name">AJMC</prop>
             </props>
         </property>
@@ -71,8 +69,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         <property name="outId" value="GROUPID"/>
         <property name="outProperties">
             <props>
-                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
+                <!--1，数据库找不到则直接返回VALUE。-->
                 <prop key="name">GROUPNAME</prop>
             </props>
         </property>
@@ -80,8 +77,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         <property name="inId" value="ID"/>
         <property name="inProperties">
             <props>
-                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
+                <!--1，数据库找不到则直接返回VALUE。-->
                 <prop key="name">TASK_STR</prop>
                 <prop key="taskContent">TASK_CONTENT</prop>
             </props>
@@ -120,8 +116,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         <property name="outId" value="TASKID"/>
         <property name="outProperties">
             <props>
-                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
+                <!--1，数据库找不到则直接返回VALUE。-->
                 <prop key="name">TASK_STR</prop>
                 <prop key="taskContent">TASK_CONTENT</prop>
             </props>
@@ -130,8 +125,7 @@ http://localhost:8080/policeGXWJ/test?limitLevel=3&maxNode=1000&detail=true&node
         <property name="inId" value="ID"/>
         <property name="inProperties">
             <props>
-                <!--1，假如需要数据库翻译则KEY首字母必须大写，数据库找不到则直接返回VALUE。-->
-                <!--2，假如不需要数据库翻译需要直接返回VALUE则KEY首字母需小写-->
+                <!--1，数据库找不到则直接返回VALUE。-->
                 <prop key="name">FEEDBACK_STR</prop>
                 <prop key="feedbackContent">FEEDBACK_CONTENT</prop>
             </props>
